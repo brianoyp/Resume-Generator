@@ -1,0 +1,51 @@
+Tue, 18 Mar 2014 08:50:05 +0100
+SQLSTATE[HY000] [2003] Can't connect to MySQL server on 'atr.eng.utah.edu' (60)
+
+Tue, 18 Mar 2014 08:51:25 +0100
+SQLSTATE[HY000] [2003] Can't connect to MySQL server on 'atr.eng.utah.edu' (51)
+
+Tue, 18 Mar 2014 23:35:13 +0100
+SQLSTATE[HY000]: General error: 2013 Lost connection to MySQL server during query
+
+Wed, 19 Mar 2014 20:18:24 +0100
+SQLSTATE[HY093]: Invalid parameter number: number of bound variables does not match number of tokens
+
+Thu, 20 Mar 2014 00:47:18 +0100
+SQLSTATE[HY093]: Invalid parameter number: number of bound variables does not match number of tokens
+
+Thu, 20 Mar 2014 01:26:59 +0100
+SQLSTATE[HY093]: Invalid parameter number: number of bound variables does not match number of tokens
+
+Thu, 20 Mar 2014 01:48:39 +0100
+SQLSTATE[HY093]: Invalid parameter number: number of bound variables does not match number of tokens
+
+Thu, 20 Mar 2014 01:49:18 +0100
+SQLSTATE[HY093]: Invalid parameter number: number of bound variables does not match number of tokens
+
+Thu, 20 Mar 2014 01:54:13 +0100
+SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1
+
+Thu, 20 Mar 2014 02:00:07 +0100
+SQLSTATE[42S22]: Column not found: 1054 Unknown column 'user' in 'where clause'
+
+Thu, 20 Mar 2014 02:00:36 +0100
+SQLSTATE[42S22]: Column not found: 1054 Unknown column 'user' in 'where clause'
+
+Thu, 20 Mar 2014 02:04:26 +0100
+SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1
+
+Thu, 20 Mar 2014 02:12:00 +0100
+SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1
+
+Thu, 20 Mar 2014 03:33:33 +0100
+SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1
+
+Thu, 20 Mar 2014 03:35:15 +0100
+SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1
+
+Thu, 20 Mar 2014 03:36:32 +0100
+SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1
+
+Thu, 20 Mar 2014 03:43:24 +0100
+SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1
+

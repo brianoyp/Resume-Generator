@@ -1,0 +1,12 @@
+Tue, 18 Mar 2014 08:50:05 +0100
+SQLSTATE[HY000] [2003] Can't connect to MySQL server on 'atr.eng.utah.edu' (60)
+
+Tue, 18 Mar 2014 08:51:25 +0100
+SQLSTATE[HY000] [2003] Can't connect to MySQL server on 'atr.eng.utah.edu' (51)
+
+Tue, 18 Mar 2014 23:35:13 +0100
+SQLSTATE[HY000]: General error: 2013 Lost connection to MySQL server during query
+
+Wed, 19 Mar 2014 20:18:24 +0100
+SQLSTATE[HY093]: Invalid parameter number: number of bound variables does not match number of tokens
+

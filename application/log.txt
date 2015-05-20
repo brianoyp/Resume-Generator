@@ -1,0 +1,30 @@
+Fri, 21 Feb 2014 23:31:36 +0100
+SQLSTATE[42S22]: Column not found: 1054 Unknown column 'Jihoon' in 'where clause'
+
+Fri, 21 Feb 2014 23:33:54 +0100
+SQLSTATE[42S22]: Column not found: 1054 Unknown column 'Jihoon' in 'where clause'
+
+Sat, 22 Feb 2014 03:17:11 +0100
+SQLSTATE[HY000] [2005] Unknown MySQL server host 'atr.eng.utah.edu' (0)
+
+Sat, 22 Feb 2014 05:55:54 +0100
+SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ' '?')' at line 1
+
+Sat, 22 Feb 2014 06:03:09 +0100
+SQLSTATE[23000]: Integrity constraint violation: 1062 Duplicate entry 'BrianOh' for key 'ResumeName_UNIQUE'
+
+Sat, 22 Feb 2014 06:15:50 +0100
+SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ' '?')' at line 1
+
+Sat, 22 Feb 2014 06:23:24 +0100
+SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ' '0')' at line 1
+
+Sat, 22 Feb 2014 07:03:41 +0100
+SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ''2011/12/12')' at line 1
+
+Sat, 22 Feb 2014 07:09:17 +0100
+SQLSTATE[23000]: Integrity constraint violation: 1062 Duplicate entry 'BrianOh' for key 'ResumeName_UNIQUE'
+
+Sat, 22 Feb 2014 07:18:43 +0100
+SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ''2011/12/12')' at line 1
+

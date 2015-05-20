@@ -1,0 +1,451 @@
+<?php
+
+require 'hidden/dbpassword.php';
+
+// Opens and returns a DB connection
+function openDBConnection()
+{
+	global $dbpassword;
+	$DBH = new PDO ( "mysql:host=atr.eng.utah.edu;dbname=cs4540_yoh", 'cs4540_yoh', $dbpassword );
+	$DBH->setAttribute ( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
+	return $DBH;
+}
+
+
+
+// Registers a new user
+function registerNewUser ($name, $userId, $password, $isAdmin) {
+	try {
+		$DBH = openDBConnection();
+		$DBH->beginTransaction();
+
+		$stmt = $DBH->prepare("insert into Users (RealName, UserId, PW) values(?,?,?)");
+		$stmt->bindValue(1, $name);
+		$stmt->bindValue(2, $userId);
+		$hashedPassword = computeHash($password, makeSalt());
+		$stmt->bindValue(3, $hashedPassword);
+		$stmt->execute();
+		$userid = $DBH->lastInsertId();
+
+		$stmt = $DBH->prepare("insert into Roles (UserId, Role) values(?,?)");
+		$stmt->bindValue(1, $userId);
+		$stmt->bindValue(2, "user");
+		$stmt->execute();
+
+		if ($isAdmin) {
+			$stmt = $DBH->prepare("insert into Roles (UserId, Role) values(?,?)");
+			$stmt->bindValue(1, $userId);
+			$stmt->bindValue(2, "admin");
+			$stmt->execute();
+		}
+		$DBH->commit();
+		return true;
+	}
+	catch (PDOException $e) {
+		if ($e->getCode() == 23000) {
+			return false;
+		}
+		reportDBError($e);
+	}
+}
+
+
+// check if the input resumeName already exist or not. 
+function isResumeNameExist($resumeName , $login)
+{
+	try
+	{
+		$DBH = openDBConnection ();
+		$stmt = $DBH->prepare ( "SELECT * FROM Resumes WHERE ResumeName = '$resumeName' and Login = '$login'" );
+		$stmt->execute ();
+		if($stmt->fetch() > 1)
+				return true;
+		else
+			return false;
+	}
+	catch ( PDOException $e )
+	{
+		reportDBError ( $e );
+	}
+}
+
+function insertResumeName($resumeName, $login)
+{
+	try
+	{
+		$DBH = openDBConnection ();
+		$stmt = $DBH->prepare ( "INSERT INTO Resumes (Login, ResumeName) value (?, ?)" );
+		$stmt->bindValue ( 1, $login );
+		$stmt->bindValue ( 2, $resumeName );
+		$stmt->execute ();
+	}
+	catch ( PDOException $e )
+	{
+		reportDBError ( $e );
+	}
+}
+
+
+function deleteResume($resumeName, $login)
+{
+	try
+	{
+		$resumeId = getResumeId($resumeName, $login);
+
+		$DBH = openDBConnection ();
+		$stmt = $DBH->prepare ( "DELETE FROM Resumes WHERE ResumeID = $resumeId" );
+		$stmt->execute ();
+	}
+	catch ( PDOException $e )
+	{
+		reportDBError ( $e );
+	}
+}
+
+function getResumeId($resumeName, $login)
+{
+	try
+	{
+		$DBH = openDBConnection ();
+		$stmt = $DBH->prepare ( "select ResumeId from Resumes where Login = '?' and ResumeName=?" );
+		$stmt->bindValue ( 1, $login );
+		$stmt->bindValue ( 2, $resumeName );
+		$stmt->execute ();
+		if ($row = $stmt->fetch ())
+		{
+			return $row ['ResumeId'];
+		}
+		else
+		{
+			return NULL;
+		}
+	}
+	catch ( PDOException $e )
+	{
+		reportDBError ( $e );
+	}
+}
+
+function insertName($name, $resumeId)
+{
+	try
+	{
+		$DBH = openDBConnection ();
+		$stmt = $DBH->prepare ( "INSERT INTO Names (ResumeId, Name) VALUES ($resumeId, ?)" );
+		$stmt->bindValue ( 1, $name );
+		$stmt->execute ();
+	}
+	catch ( PDOException $e )
+	{
+		reportDBError ( $e );
+	}
+}
+
+function insertAddress($address, $resumeId)
+{
+	try
+	{
+		$DBH = openDBConnection ();
+		$stmt = $DBH->prepare ( "INSERT INTO Addresses (ResumeId, Address) VALUES ($resumeId, ?)" );
+		$stmt->bindValue ( 1, $address );
+		$stmt->execute ();
+	}
+	catch ( PDOException $e )
+	{
+		reportDBError ( $e );
+	}
+}
+
+function insertPhoneNumber($phoneNumber, $resumeId)
+{
+	try
+	{
+		$DBH = openDBConnection ();
+		$stmt = $DBH->prepare ( "INSERT INTO PhoneNumbers (ResumeId, PhoneNumber) VALUES ($resumeId, ?)" );
+		$stmt->bindValue ( 1, $phoneNumber );
+		$stmt->execute ();
+	}
+	catch ( PDOException $e )
+	{
+		reportDBError ( $e );
+	}
+}
+
+function insertPosition($position, $resumeId)
+{
+	try
+	{
+		$DBH = openDBConnection ();
+		$stmt = $DBH->prepare ( "INSERT INTO Positions (ResumeId, Position) VALUES ($resumeId, ?)" );
+		$stmt->bindValue ( 1, $position );
+		$stmt->execute ();
+	}
+	catch ( PDOException $e )
+	{
+		reportDBError ( $e );
+	}
+}
+
+function insertHistoryNum($historyNum, $resumeId)
+{
+	try
+	{
+		$DBH = openDBConnection ();
+		$DBH->beginTransaction ();
+
+		for ($i = 0; $i <= $historyNum; $i++)
+		{
+			$stmt = $DBH->prepare ("INSERT INTO Histories (ResumeId, HistoryNumber) VALUES ($resumeId, $i)");
+			$stmt->execute ();
+		}
+
+		$DBH->commit ();
+	}
+	catch ( PDOException $e )
+	{
+		$DBH->rollback ();
+		reportDBError ( $e );
+	}
+}
+
+function insertHistories($historyNum, $resumeId, $startDate, $endDate, $description)
+{
+	try
+	{
+		
+		$DBH = openDBConnection ();
+		$DBH->beginTransaction ();
+		
+		$hitories;
+
+		$stmt = $DBH->prepare ("SELECT HistoryNumber, HistoryId FROM Histories WHERE ResumeId = $resumeId");
+		$stmt->execute ();
+			
+		while ( $row = $stmt->fetch () )
+		{
+			$hitories [$row ['HistoryNumber']] = $row ['HistoryId']; 
+		}
+		
+		for ($i = 0; $i <= $historyNum; $i++)
+		{	
+			$historyId = $hitories[$i];
+			
+			if (isset($startDate[$i]) && $startDate[$i] != "") 
+			{
+				$stmt = $DBH->prepare ("INSERT INTO StartDates (HistoryId,StartDate) VALUE ($historyId,'$startDate[$i]')");
+				$stmt->execute ();
+			}
+			if (isset($endDate[$i]) && $endDate[$i] != "")
+			{
+				$stmt = $DBH->prepare ("INSERT INTO EndDates (HistoryId,EndDate) VALUE ($historyId,'$endDate[$i]')");
+				$stmt->execute ();
+			}
+			if (isset($description[$i]) && $description[$i] != "")
+			{
+				$stmt = $DBH->prepare ("INSERT INTO Descriptions (HistoryId,Description) VALUE ($historyId,'$description[$i]')");
+				$stmt->execute ();	
+			}					
+		}
+		$DBH->commit ();
+	}
+	catch ( PDOException $e )
+	{
+		$DBH->rollback ();
+		reportDBError ( $e );
+	}
+}
+
+function getName($resumeId)
+{
+	try
+	{
+		$DBH = openDBConnection ();
+		$stmt = $DBH->prepare ( "SELECT Name FROM Names WHERE ResumeId = $resumeId");
+		$stmt->execute ();
+		if ($row = $stmt->fetch ())
+		{
+			return $row ['Name'];
+		}
+		else
+		{
+			return NULL;
+		}
+	}
+	catch ( PDOException $e )
+	{
+		reportDBError ( $e );
+	}
+}
+
+function getAddress($resumeId)
+{
+	try
+	{
+		$DBH = openDBConnection ();
+		$stmt = $DBH->prepare ( "SELECT Address FROM Addresses WHERE ResumeId = $resumeId");
+		$stmt->execute ();
+		if ($row = $stmt->fetch ())
+		{
+			return $row ['Address'];
+		}
+		else
+		{
+			return NULL;
+		}
+	}
+	catch ( PDOException $e )
+	{
+		reportDBError ( $e );
+	}
+}
+
+function getPhoneNumber($resumeId)
+{
+	try
+	{
+		$DBH = openDBConnection ();
+		$stmt = $DBH->prepare ( "SELECT PhoneNumber FROM PhoneNumbers WHERE ResumeId = $resumeId");
+		$stmt->execute ();
+		if ($row = $stmt->fetch ())
+		{
+			return $row ['PhoneNumber'];
+		}
+		else
+		{
+			return NULL;
+		}
+	}
+	catch ( PDOException $e )
+	{
+		reportDBError ( $e );
+	}
+}
+
+function getPosition($resumeId)
+{
+	try
+	{
+		$DBH = openDBConnection ();
+		$stmt = $DBH->prepare ( "SELECT Position FROM Positions WHERE ResumeId = $resumeId");
+		$stmt->execute ();
+		if ($row = $stmt->fetch ())
+		{
+			return $row ['Position'];
+		}
+		else
+		{
+			return NULL;
+		}
+	}
+	catch ( PDOException $e )
+	{
+		reportDBError ( $e );
+	}
+}
+
+function getHistory($resumeId, &$startDate, &$endDate, &$description, &$historyNum)
+{
+	try
+	{
+		$DBH = openDBConnection ();
+		$DBH->beginTransaction ();
+
+		$histories = Array();
+
+		$stmt = $DBH->prepare ("SELECT HistoryNumber, HistoryId FROM Histories WHERE ResumeId = $resumeId");
+		$stmt->execute ();
+			
+		while ( $row = $stmt->fetch () )
+		{
+			$histories [$row ['HistoryNumber']] = $row ['HistoryId'];
+		}
+
+		if(count($histories) > 0)
+		{
+			$historyNum = count($histories) - 1;
+			
+			for ($i = 0; $i <= $historyNum; $i++)
+			{
+				$historyId = $histories[$i];
+					
+				$stmt = $DBH->prepare ("SELECT StartDate FROM StartDates WHERE HistoryId = $historyId");
+				$stmt->execute ();
+				if ($row = $stmt->fetch ())
+				{
+					$startDate[$i] = $row ['StartDate'];
+				}
+				
+				$stmt = $DBH->prepare ("SELECT EndDate FROM EndDates WHERE HistoryId = $historyId");
+				$stmt->execute ();
+				if ($row = $stmt->fetch ())
+				{
+					$endDate[$i] = $row ['EndDate'];
+				}
+				
+				$stmt = $DBH->prepare ("SELECT Description FROM Descriptions WHERE HistoryId = $historyId");
+				$stmt->execute ();
+				if ($row = $stmt->fetch ())
+				{
+					$description[$i] = $row ['Description'];
+				}
+			}
+		}
+		$DBH->commit ();
+	}
+	catch ( PDOException $e )
+	{
+		$DBH->rollback ();
+		reportDBError ( $e );
+	}
+}
+
+// Registers a new user
+function registerNewUser ($name, $userId, $password, $isAdmin) {
+	try {
+		$DBH = openDBConnection();
+		$DBH->beginTransaction();
+
+		$stmt = $DBH->prepare("insert into Users (RealName, UserId, PW) values(?,?,?)");
+		$stmt->bindValue(1, $name);
+		$stmt->bindValue(2, $userId);
+		$hashedPassword = computeHash($password, makeSalt());
+		$stmt->bindValue(3, $hashedPassword);
+		$stmt->execute();
+		$userid = $DBH->lastInsertId();
+
+		$stmt = $DBH->prepare("insert into Roles (UserId, Role) values(?,?)");
+		$stmt->bindValue(1, $userId);
+		$stmt->bindValue(2, "client");
+		$stmt->execute();
+
+		if ($isAdmin) {
+			$stmt = $DBH->prepare("insert into Roles (UserId, Role) values(?,?)");
+			$stmt->bindValue(1, $userId);
+			$stmt->bindValue(2, "admin");
+			$stmt->execute();
+		}
+		$DBH->commit();
+		return true;
+	}
+	catch (PDOException $e) {
+		if ($e->getCode() == 23000) {
+			return false;
+		}
+		reportDBError($e);
+	}
+}
+
+
+// Logs and reports a database error
+function reportDBError($exception)
+{
+	$file = fopen ( "log.txt", "a" );
+	fwrite ( $file, date ( DATE_RSS ) );
+	fwrite ( $file, "\n" );
+	fwrite ( $file, $exception->getMessage () );
+	fwrite ( $file, "\n" );
+	fwrite ( $file, "\n" );
+	fclose ( $file );
+	require "views/error.php";
+	exit ();
+}

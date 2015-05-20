@@ -1,0 +1,10 @@
+<?php
+// if ($isAdmin) {
+// 	$stmt = $DBH->prepare("insert into Roles (UserId, Role) values(?,?)");
+// 	$stmt->bindValue(1, $userId);
+// 	$stmt->bindValue(2, "admin");
+// 	$stmt->execute();
+// }
+
+require("views/adminPage.php");
+?>

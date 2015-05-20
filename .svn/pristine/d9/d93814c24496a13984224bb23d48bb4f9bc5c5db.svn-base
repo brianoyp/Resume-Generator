@@ -1,0 +1,2 @@
+This is archivePage.php
+<a href="archive.php?test=success&test2=fail">delete</a>

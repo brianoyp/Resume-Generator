@@ -1,0 +1,99 @@
+<?php
+session_start();
+$previous = $_SERVER['HTTP_REFERER'];
+if ($previous == null || $previous == "")
+	$previous = 'index.php';
+include ('application/functions.php');
+?>
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="style.css">
+<title>Help</title>
+</head>
+
+<body>
+<?php 
+makeLogin();
+?>
+<h2>Help</h2>
+
+<p>
+This website help users to fill out resume.<br><br>
+
+You can navigate all website using navigation links down below.<br><br>
+
+There are Three main pages that user can put there information.<br><br>
+
+There are Contact Information, Position sought, and Emploment history page.<br><br>
+
+Users can preview the Resume any time with "Resume Preview" link.<br><br>
+
+Also, there is "Clear All information" link, so that user can remove all the information.<br><br><br>
+
+
+
+If you login, you can save the current resume information to database.<br><br>
+
+Once you login, in the navigate links, you can see the Archive page.<br><br>
+
+At Archive page, user can see the previous resumes that the user saved.<br><br>
+
+Also, user can save, load, delete resumes in the data base.
+<br><br><br>
+
+
+For TAs.<br><br>
+
+for testing purpose, I inserted 2 users.<br><br>
+
+the user IDs and password are followed.<br><br>
+
+ID ÑÑÑÑÑÑ Pass<br><br>
+
+user ÑÑ password<br><br>
+
+admin ÑÑ password<br><br>
+
+</p>
+<br><br><br>
+<?php echo ("<a href= '$previous'>Go Back</a>")?>
+<br>
+<br>
+<h3> Navigation Links: </h3>
+<p> You can navigate this webpage, or clear the information with below links.</p>
+
+<table class = "navigation" >
+<tr>
+<td>
+<a href = "index.php">Home</a>
+</td>
+
+<td>
+<a href = "contact.php">Contact Information</a>
+</td>
+
+<td>
+<a href = "position.php">Position Sought</a>
+</td>
+
+<td>
+<a href = "history.php">Employment History</a>
+</td>
+
+<td>
+<a href = "resume.php">Resume Preview</a>
+</td>
+
+<?php 
+linkAdd();
+?>
+
+<td>
+<a href = "clear.php">Clear All Information</a>
+</td>
+
+</tr>
+</table>
+</body>
+</html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="views/style.css">
+<title>Help</title>
+</head>
+
+<body>
+
+<h2>Help</h2>
+<p>This website help users to fill out resume.<br><br>
+You can navigate all website using navigation links down below.<br><br>
+There are Three main pages that user can put there information.<br><br>
+There are Contact Information, Position sought, and Emploment history page.<br><br>
+Users can preview the Resume any time with "Resume Preview" link.<br><br>
+Also, there is "Clear All information" link, so that user can remove all the information.<br><br><br>
+
+Now Users can save current information to database.<br><br>
+At Resume Preview page, users can enter 'Resume Name' and can save, load, or delete their resume with that name. 
+<br><br><br>
+<?php echo"<a href=\"javascript:history.go(-1)\">GO BACK</a>" ?>
+<br>
+<br>
+<h3> Navigation Links: </h3>
+<p> You can navigate this webpage, or clear the information with below links.</p>
+
+<table class = "navigation" >
+<tr>
+<td>
+<a href = "index.php">Home</a>
+</td>
+
+<td>
+<a href = "contact.php">Contact Information</a>
+</td>
+
+<td>
+<a href = "position.php">Position Sought</a>
+</td>
+
+<td>
+<a href = "history.php">Employment History</a>
+</td>
+
+<td>
+<a href = "resume.php">Resume Preview</a>
+</td>
+
+<td>
+<a href = "clear.php">Clear All Information</a>
+</td>
+
+</tr>
+</table>
+</body>
+</html>

@@ -1,0 +1,7 @@
+<?php
+//validate logined user. 
+
+// for loged in user query all resume
+
+require("views/archivePage.php");
+?>

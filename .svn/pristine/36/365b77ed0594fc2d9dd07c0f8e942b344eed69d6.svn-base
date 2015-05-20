@@ -1,0 +1,15 @@
+html{
+	padding: 0;
+	width: 100%	
+	}
+	
+body{
+	background-image:url('background.jpg');
+}
+
+.error {color:#FF0000;}
+.success {color:green;}
+
+table.navigation {
+border-spacing:15px;
+}

@@ -1,0 +1,140 @@
+<?php 
+include ('application/functions.php');
+?>
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="style.css">
+<title>Job History</title>
+
+<script type="text/javascript">
+
+// this number keep track of the history form number.
+// it starts from 0th form, if there is no previous data.
+// if there is data, the number of the last history form will be i
+// for example, if there is three previous histories, i will be 2. (0,1,2)
+// this function will be load when the web page is fully loaded.
+var number_history = <?php echo ($historyNum)?>;
+
+function updateHistoryNum()
+{
+	document.getElementById("historyNum").value = number_history;
+}
+document.getElementById("historyNum").value = number_history;
+
+// this function will append additional history form
+function addHistory()
+{
+	number_history++;
+	// update the hidden value number. this hidden value keep track of the number of histories and is passed to php variable.
+	updateHistoryNum();
+	
+	// get parent elemet
+	var parent = document.getElementById('historyTable');
+
+	// create child element
+	var newdiv = document.createElement('div');
+
+	// make id name
+	var divIdName = "div"+number_history;
+	 
+	// set id
+	newdiv.setAttribute('id',divIdName);
+	
+	newdiv.innerHTML = 
+		 "Starting Date: <input type = 'text' name = 'startDate"+number_history+"'><br><br>" 
+		 + "Ending Date: <input type = 'text' name = 'endDate"+number_history+"'><br><br>"
+		 + "Position Description:<br>"
+		 + "<textarea name = 'description"+number_history+"' rows = '6' cols = '60'></textarea><br><br>"
+		 + "<button type = 'button' onclick='myRemoveChild("+number_history+")'>Remove</button><br><br><br>";
+		 //+ "<a href='javascript:;' onclick='remove();'>Remove</a><br><br><br>";
+	// put the new element under the parent element.
+	parent.appendChild(newdiv);
+}
+
+// this function remove a chosen history form.
+function myRemoveChild(divNum) {
+
+	// decreament number of histoies and change hidden value.
+	number_history--;
+	updateHistoryNum();
+
+	// get parent
+	var parent = document.getElementById('historyTable');
+
+	// get child
+	var childId = "div"+ divNum;
+	var child = document.getElementById(childId);
+
+	// remove all contents in child
+	child.innerHTML = "";
+	
+	// remove the child from the parent
+	parent.removeChild(child);
+
+	return false;
+	}
+
+</script>
+
+</head>
+
+<body>
+<?php 
+makeLogin();
+?>
+<h1>Job History</h1>
+<p>Please enter your previous job information</p>
+
+<form name = "formHistory" method = "get">
+<table id = "historyTable">
+<?php echo($histories)?>
+
+</table>
+
+<table>
+<tr>
+
+<td><button type = "button" onclick = "addHistory()">Add an additional history</button></td>
+</tr>
+<tr>
+<td><input type = "submit" name = "submit" value = "Submit" onclick = "updateHistoryNum()"></td>
+<td><input type="hidden" name = "historyNum" id="historyNum" /> <a href = "resume.php">Next</a></td>
+</tr>
+</table>
+</form>
+<br>
+<h3> Navigation Links: </h3>
+<p> You can navigate this webpage, or clear the information with below links.</p>
+<table class = "navigation" >
+
+<tr>
+
+<td>
+<a href = "index.php">Home</a>
+</td>
+
+<td>
+<a href= "contact.php">Contact information</a>
+</td>
+
+<td>
+<a href = "position.php">Position Sought</a>
+</td>
+
+<td>
+<a href= "resume.php">Resume Preview</a>
+</td>
+
+<td>
+<a href = "clear.php">Clear All Information</a>
+</td>
+
+<td>
+<a href= "help.php">Help</a>
+</td>
+
+</tr>
+</table>
+</body>
+</html>

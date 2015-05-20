@@ -1,0 +1,67 @@
+<?php 
+include ('application/functions.php');
+?>
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="style.css">
+<title>Job Sought</title>
+</head>
+
+<body>
+<?php 
+makeLogin();
+?>
+<h1>Job Sought</h1>
+<p>Please enter your description of the job desired.</p>
+
+<form name = "formPosition" method = "get">
+
+<table>
+
+<tr><td><p>Description of the job desired: </p></td></tr>
+
+<tr>
+<td><textarea name = "position" cols="50" rows = "5"><?php echo($position)?></textarea></td>
+
+<td><span class='error'> <?php echo($positionErr)?></span></td></tr>
+
+<tr><td><input type = "submit" name = "submit" value = "Submit"></td><td><a href = "history.php">Next</a><td></tr>
+
+</table>
+
+</form>
+
+<h3> Navigation Links: </h3>
+<p> You can navigate this webpage, or clear the information with below links.</p>
+
+<table class = "navigation">
+<tr>
+<td>
+<a href = "index.php">Home</a>
+</td>
+
+<td>
+<a href = "contact.php">Contact Information</a>
+</td>
+
+<td>
+<a href = "history.php">Employment History</a>
+</td>
+
+<td>
+<a href = "resume.php">Resume Preview</a>
+</td>
+
+<td>
+<a href = "clear.php">Clear All Information</a>
+</td>
+
+<td>
+<a href = "help.php">Help</a>
+</td>
+
+</tr>
+</table>
+</body>
+</html>
